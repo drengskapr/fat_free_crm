@@ -10,7 +10,7 @@ LABEL author="Steve Kenworthy"
 
 ENV HOME /home/app
 ENV DB sqlite
-ENV RAILS_ENV development
+ENV RAILS_ENV production
 
 RUN mkdir -p $HOME
 
