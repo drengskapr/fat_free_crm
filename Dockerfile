@@ -9,6 +9,8 @@ FROM ruby:2.4
 LABEL author="Steve Kenworthy"
 
 ENV HOME /home/app
+ENV DB sqlite
+ENV RAILS_ENV development
 
 RUN mkdir -p $HOME
 
@@ -18,9 +20,10 @@ ADD . $HOME
 RUN apt-get update && \
 	apt-get install -y imagemagick tzdata && \
 	apt-get autoremove -y && \
-	cp config/database.postgres.docker.yml config/database.yml && \
+	cp config/database.sqlite.yml config/database.yml && \
 	gem install bundler && \
 	bundle install --deployment && \
+	bundle exec rake db:create db:schema:load ffcrm:demo:load && \
 	bundle exec rails assets:precompile
 
 CMD ["bundle","exec","rails","s"]
